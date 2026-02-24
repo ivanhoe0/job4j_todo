@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/header :: header"></head>
+<body>
+<div th:replace="fragments/navigation :: navigation"></div>
+<div class="container">
+    <div class="row">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Описание</th>
+                <th scope="col">Дата создания</th>
+                <th scope="col">Выполнено</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${task.description}" />
+                <td th:text="${{task.created}}" />
+                <td>
+              <span th:if="${task.done}">
+                <i class="bi bi-clipboard2-check-fill"></i>
+              </span>
+                    <span th:if="${!task.done}">
+                  <i class="bi bi-clipboard2"></i>
+              </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-sm-3"><a class="btn btn-success w-75"
+                              th:href="@{/tasks/update/{id}(id=${task.id})}">Выполнено</a>
+        </div>
+        <div class="col-sm-3"><a class="btn btn-info w-75"
+                              th:href="@{/tasks/edit/{id}(id=${task.id})}">Редактировать</a>
+        </div>
+        <div class="col-sm-3"><a class="btn btn-danger w-75"
+                              th:href="@{/tasks/delete/{id}(id=${task.id})}">Удалить</a>
+        </div>
+    </div>
+</div>
+<footer th:include="fragments/footer :: footer"></footer>
+</body>
+</html>
