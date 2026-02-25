@@ -65,18 +65,18 @@ public class HbmTaskRepository implements TaskRepository {
     @Override
     public boolean delete(Integer id) {
         Session session = sf.openSession();
+        int result = 0;
         try {
             session.beginTransaction();
-            Task task = new Task();
-            task.setId(id);
-            session.delete(task);
+            result = session.createQuery("DELETE Task t WHERE t.id = :tid")
+                    .setParameter("tid", id)
+                    .executeUpdate();
             session.getTransaction().commit();
             session.close();
         } catch (Exception e) {
             session.getTransaction().rollback();
-            return false;
         }
-        return true;
+        return result > 0;
     }
 
     @Override
@@ -90,36 +90,39 @@ public class HbmTaskRepository implements TaskRepository {
 
     @Override
     public boolean makeDone(Integer id) {
-        var optionalTask = findById(id);
-        if (optionalTask.isPresent()) {
             Session session = sf.openSession();
+            int result = 0;
             try {
                 session.beginTransaction();
-                Task task = optionalTask.get();
-                task.setDone(true);
-                session.update(task);
+                result = session.createQuery("UPDATE Task  SET done = TRUE WHERE id = :fid")
+                        .setParameter("fid", id)
+                        .executeUpdate();
                 session.getTransaction().commit();
                 session.close();
             } catch (Exception e) {
                 session.getTransaction().rollback();
-                return false;
             }
-        }
-        return optionalTask.isPresent();
+        return result > 0;
     }
 
     @Override
     public boolean update(Task task) {
         Session session = sf.openSession();
+        int result = 0;
         try {
             session.beginTransaction();
-            session.merge(task);
+            result = session.createQuery("UPDATE Task t SET t.title = :fTitle, t.description = :fDesc, t.created = :fCreated, t.done = :fDone WHERE t.id = :fid")
+                    .setParameter("fTitle", task.getTitle())
+                    .setParameter("fDesc", task.getDescription())
+                    .setParameter("fCreated", task.getCreated())
+                    .setParameter("fid", task.getId())
+                    .setParameter("fDone", task.isDone())
+                    .executeUpdate();
             session.getTransaction().commit();
             session.close();
         } catch (Exception e) {
             session.getTransaction().rollback();
-            return false;
         }
-        return true;
+        return result > 0;
     }
 }

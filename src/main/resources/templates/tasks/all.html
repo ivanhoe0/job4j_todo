@@ -19,14 +19,14 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th scope="col">Описание</th>
+                <th scope="col">Название</th>
                 <th scope="col">Дата создания</th>
                 <th scope="col">Выполнено</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="task: ${tasks}" style="position: relative;">
-                <td th:text="${task.description}" />
+                <td th:text="${task.title}" />
                 <td th:text="${{task.created}}" />
                 <td>
               <span th:if="${task.done}">

@@ -8,6 +8,7 @@
         <table class="table table-hover">
             <thead>
             <tr>
+                <th scope="col">Название</th>
                 <th scope="col">Описание</th>
                 <th scope="col">Дата создания</th>
                 <th scope="col">Выполнено</th>
@@ -15,6 +16,7 @@
             </thead>
             <tbody>
             <tr>
+                <td th:text="${task.title}" />
                 <td th:text="${task.description}" />
                 <td th:text="${{task.created}}" />
                 <td>

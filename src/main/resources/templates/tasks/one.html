@@ -8,6 +8,11 @@
         <input type="hidden" name="id" th:field="*{id}">
         <input type="hidden" name="created" th:field="*{created}">
         <div class="mb-3">
+            <label for="title" class="form-label"><b>Название</b></label>
+            <input type="text" class="form-control" th:field="*{title}" name="title" id="title"
+                   placeholder="Название задания">
+        </div>
+        <div class="mb-3">
             <label for="description" class="form-label"><b>Описание задания</b></label>
             <textarea class="form-control" id="description"
                       name="description" th:field="*{description}"

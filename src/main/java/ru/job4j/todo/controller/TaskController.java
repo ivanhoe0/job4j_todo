@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.service.TaskService;
 
-import javax.servlet.http.HttpServletRequest;
-import java.net.http.HttpRequest;
-
 @Controller
 @AllArgsConstructor
 public class TaskController {
@@ -68,10 +65,9 @@ public class TaskController {
     public String makeDone(Model model, @PathVariable int id) {
         if (taskService.makeDone(id)) {
             return "redirect:/";
-        } else {
-            model.addAttribute("message", "Произошла ошибка обновления");
-            return "errors/404";
         }
+        model.addAttribute("message", "Произошла ошибка обновления");
+        return "errors/404";
     }
 
     @GetMapping("tasks/edit/{id}")
@@ -89,19 +85,17 @@ public class TaskController {
     public String update(@ModelAttribute Task task, Model model) {
         if (taskService.update(task)) {
             return "redirect:/";
-        } else {
-            model.addAttribute("message", "Произошла ошибка обновления");
-            return "errors/404";
         }
+        model.addAttribute("message", "Произошла ошибка обновления");
+        return "errors/404";
     }
 
     @GetMapping("tasks/delete/{id}")
     public String delete(@PathVariable int id, Model model) {
         if (taskService.delete(id)) {
             return "redirect:/";
-        } else {
-            model.addAttribute("message", "Произошла ошибка удаления");
-            return "errors/404";
         }
+        model.addAttribute("message", "Произошла ошибка удаления");
+        return "errors/404";
     }
 }
