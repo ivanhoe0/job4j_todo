@@ -114,7 +114,6 @@ public class HbmTaskRepository implements TaskRepository {
             result = session.createQuery("UPDATE Task t SET t.title = :fTitle, t.description = :fDesc, t.created = :fCreated, t.done = :fDone WHERE t.id = :fid")
                     .setParameter("fTitle", task.getTitle())
                     .setParameter("fDesc", task.getDescription())
-                    .setParameter("fCreated", task.getCreated())
                     .setParameter("fid", task.getId())
                     .setParameter("fDone", task.isDone())
                     .executeUpdate();
