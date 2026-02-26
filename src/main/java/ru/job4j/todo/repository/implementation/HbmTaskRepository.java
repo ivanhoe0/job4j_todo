@@ -3,6 +3,7 @@ package ru.job4j.todo.repository.implementation;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.Task;
+import ru.job4j.todo.model.User;
 import ru.job4j.todo.repository.TaskRepository;
 
 import java.time.LocalDateTime;
@@ -33,7 +34,8 @@ public class HbmTaskRepository implements TaskRepository {
     }
 
     @Override
-    public Task addTask(Task task) {
+    public Task addTask(Task task, User user) {
+        task.setUser(user);
         task.setCreated(LocalDateTime.now());
         crudRepository.run(session -> session.save(task));
         return task;

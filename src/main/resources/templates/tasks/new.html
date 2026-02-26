@@ -20,6 +20,7 @@
             <thead>
             <tr>
                 <th scope="col">Название</th>
+                <th scope="col">Кем создано</th>
                 <th scope="col">Дата создания</th>
                 <th scope="col">Выполнено</th>
             </tr>
@@ -27,6 +28,7 @@
             <tbody>
             <tr th:each="task: ${tasks}">
                 <td th:text="${task.title}" />
+                <td th:text="${task.user.name}" />
                 <td th:text="${{task.created}}" />
                 <td>
               <span th:if="${task.done}">

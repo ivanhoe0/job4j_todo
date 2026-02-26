@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.todo.model.Task;
+import ru.job4j.todo.model.User;
 import ru.job4j.todo.service.TaskService;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @AllArgsConstructor
@@ -28,9 +31,9 @@ public class TaskController {
     }
 
     @PostMapping("tasks/create")
-    public String create(@ModelAttribute Task task, Model model) {
+    public String create(@ModelAttribute Task task, Model model, HttpServletRequest request) {
         try {
-            taskService.addTask(task);
+            taskService.addTask(task, (User) request.getSession().getAttribute("user"));
             return "redirect:/";
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());

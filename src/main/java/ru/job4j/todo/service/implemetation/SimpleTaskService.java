@@ -3,6 +3,7 @@ package ru.job4j.todo.service.implemetation;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.todo.model.Task;
+import ru.job4j.todo.model.User;
 import ru.job4j.todo.repository.TaskRepository;
 import ru.job4j.todo.service.TaskService;
 
@@ -30,8 +31,8 @@ public class SimpleTaskService implements TaskService {
     }
 
     @Override
-    public Task addTask(Task task) {
-        return taskRepository.addTask(task);
+    public Task addTask(Task task, User user) {
+        return taskRepository.addTask(task, user);
     }
 
     @Override
