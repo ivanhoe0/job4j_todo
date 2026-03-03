@@ -20,17 +20,17 @@ public class HbmTaskRepository implements TaskRepository {
 
     @Override
     public List<Task> findUnFinishedTasks() {
-        return crudRepository.query("FROM Task t WHERE t.done = FALSE", Task.class);
+        return crudRepository.query("FROM Task t JOIN FETCH t.priority WHERE t.done = FALSE", Task.class);
     }
 
     @Override
     public List<Task> findFinishedTasks() {
-        return crudRepository.query("FROM Task t WHERE t.done = TRUE", Task.class);
+        return crudRepository.query("FROM Task t JOIN FETCH t.priority WHERE t.done = TRUE", Task.class);
     }
 
     @Override
     public Optional<Task> findById(int id) {
-        return crudRepository.optional("FROM Task t WHERE t.id = :fid", Task.class, Map.of("fid", id));
+        return crudRepository.optional("FROM Task t JOIN FETCH t.priority WHERE t.id = :fid", Task.class, Map.of("fid", id));
     }
 
     @Override
@@ -48,7 +48,7 @@ public class HbmTaskRepository implements TaskRepository {
 
     @Override
     public List<Task> findAll() {
-        return crudRepository.query("FROM Task", Task.class);
+        return crudRepository.query("FROM Task t JOIN FETCH t.priority", Task.class);
     }
 
     @Override
