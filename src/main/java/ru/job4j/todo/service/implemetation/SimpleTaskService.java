@@ -2,10 +2,12 @@ package ru.job4j.todo.service.implemetation;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.job4j.todo.mapper.TaskMapper;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
 import ru.job4j.todo.repository.TaskRepository;
 import ru.job4j.todo.service.TaskService;
+import ru.job4j.todo.view.TaskView;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class SimpleTaskService implements TaskService {
     private final TaskRepository taskRepository;
+    private final TaskMapper mapper;
 
     @Override
     public List<Task> findUnFinishedTasks() {
@@ -31,8 +34,10 @@ public class SimpleTaskService implements TaskService {
     }
 
     @Override
-    public Task addTask(Task task, User user) {
-        return taskRepository.addTask(task, user);
+    public TaskView addTask(TaskView view, User user) {
+        Task task = mapper.getEntityFromView(view);
+        taskRepository.addTask(task, user);
+        return view;
     }
 
     @Override

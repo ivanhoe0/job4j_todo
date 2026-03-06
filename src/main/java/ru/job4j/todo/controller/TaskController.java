@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
+import ru.job4j.todo.service.CategoryService;
+import ru.job4j.todo.service.PriorityService;
 import ru.job4j.todo.service.TaskService;
+import ru.job4j.todo.view.TaskView;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 public class TaskController {
 
     private final TaskService taskService;
+    private final CategoryService categoryService;
+    private final PriorityService priorityService;
 
     @GetMapping()
     public String showAll(Model model) {
@@ -26,14 +31,16 @@ public class TaskController {
     }
 
     @GetMapping("tasks/create")
-    public String getCreationPage() {
+    public String getCreationPage(Model model) {
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("priorities", priorityService.findAll());
         return "tasks/create";
     }
 
     @PostMapping("tasks/create")
-    public String create(@ModelAttribute Task task, Model model, HttpServletRequest request) {
+    public String create(@ModelAttribute TaskView view, Model model, HttpServletRequest request) {
         try {
-            taskService.addTask(task, (User) request.getSession().getAttribute("user"));
+            taskService.addTask(view, (User) request.getSession().getAttribute("user"));
             return "redirect:/";
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
