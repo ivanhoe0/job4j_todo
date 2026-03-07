@@ -11,6 +11,7 @@ import ru.job4j.todo.view.TaskView;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 
 @Service
 @AllArgsConstructor
@@ -19,18 +20,34 @@ public class SimpleTaskService implements TaskService {
     private final TaskMapper mapper;
 
     @Override
-    public List<Task> findUnFinishedTasks() {
-        return taskRepository.findUnFinishedTasks();
+    public List<TaskView> findUnFinishedTasks(User user) {
+        return taskRepository.findUnFinishedTasks()
+                .stream()
+                .map(mapper::getViewFromEntity)
+                .peek(e -> {
+                    if (user.getTimeZone() != null) {
+                        e.setCreated(e.getCreated().withZoneSameInstant(TimeZone.getTimeZone(user.getTimeZone()).toZoneId()));
+                    }
+                })
+                .toList();
     }
 
     @Override
-    public List<Task> findFinishedTasks() {
-        return taskRepository.findFinishedTasks();
+    public List<TaskView> findFinishedTasks(User user) {
+        return taskRepository.findFinishedTasks()
+                .stream()
+                .map(mapper::getViewFromEntity)
+                .peek(e -> {
+                    if (user.getTimeZone() != null) {
+                        e.setCreated(e.getCreated().withZoneSameInstant(TimeZone.getTimeZone(user.getTimeZone()).toZoneId()));
+                    }
+                })
+                .toList();
     }
 
     @Override
-    public Optional<Task> findById(int id) {
-        return taskRepository.findById(id);
+    public Optional<TaskView> findById(int id) {
+        return taskRepository.findById(id).map(mapper::getViewFromEntity);
     }
 
     @Override
@@ -46,8 +63,16 @@ public class SimpleTaskService implements TaskService {
     }
 
     @Override
-    public List<Task> findAll() {
-        return taskRepository.findAll();
+    public List<TaskView> findAll(User user) {
+        return taskRepository.findAll()
+                .stream()
+                .map(mapper::getViewFromEntity)
+                .peek(e -> {
+                    if (user.getTimeZone() != null) {
+                        e.setCreated(e.getCreated().withZoneSameInstant(TimeZone.getTimeZone(user.getTimeZone()).toZoneId()));
+                    }
+                })
+                .toList();
     }
 
     @Override
@@ -56,7 +81,7 @@ public class SimpleTaskService implements TaskService {
     }
 
     @Override
-    public boolean update(Task task) {
-        return taskRepository.update(task);
+    public boolean update(TaskView view) {
+        return taskRepository.update(mapper.getEntityFromView(view));
     }
 }

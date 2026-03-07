@@ -7,6 +7,7 @@
     <form class="mt-3" th:action="@{/tasks/update}" method="post" th:object="${task}">
         <input type="hidden" name="id" th:field="*{id}">
         <input type="hidden" name="created" th:field="*{created}">
+        <input type="hidden" name="priorityId" th:field="*{priorityId}">
         <div class="mb-3">
             <label for="title" class="form-label"><b>Название</b></label>
             <input type="text" class="form-control" th:field="*{title}" name="title" id="title"

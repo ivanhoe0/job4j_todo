@@ -29,8 +29,8 @@
             <tbody>
             <tr th:each="task: ${tasks}">
                 <td th:text="${task.title}" />
-                <td th:text="${task.user.name}" />
-                <td th:text="${task.priority.name}" />
+                <td th:text="${task.user}" />
+                <td th:text="${task.priority}" />
                 <td th:text="${{task.created}}" />
                 <td>
               <span th:if="${task.done}">

@@ -9,6 +9,7 @@ import ru.job4j.todo.repository.UserRepository;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -44,5 +45,10 @@ public class HbmUserRepository implements UserRepository {
             }
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<User> findById(Integer id) {
+        return crudRepository.optional("FROM User WHERE id = :uid", User.class, Map.of("uid", id));
     }
 }

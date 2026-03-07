@@ -8,19 +8,19 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TaskService {
-    List<Task> findAll();
+    List<TaskView> findAll(User user);
 
     boolean delete(int id);
 
     TaskView addTask(TaskView view, User user);
 
-    Optional<Task> findById(int id);
+    Optional<TaskView> findById(int id);
 
-    List<Task> findFinishedTasks();
+    List<TaskView> findFinishedTasks(User user);
 
-    List<Task> findUnFinishedTasks();
+    List<TaskView> findUnFinishedTasks(User user);
 
     boolean makeDone(Integer id);
 
-    boolean update(Task task);
+    boolean update(TaskView view);
 }
